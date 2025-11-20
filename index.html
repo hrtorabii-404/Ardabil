@@ -1,11 +1,571 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>Ardabil</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلس سرمایه گذاری منطقه آزاد اردبیل-بیله سوار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            overflow: hidden;
+            /* پس‌زمینه گرادیانت متناسب با تم سبز و طلایی */
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        /* --- انیمیشن درخشش لوگو (آرام‌تر) --- */
+        .logo-shine-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .logo-shine-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 7s infinite; /* سرعت کمتر (زمان بیشتر) */
+            pointer-events: none;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            15% { left: 200%; } /* حرکت نور */
+            100% { left: 200%; } /* مکث */
+        }
+
+        /* --- استایل‌های Glassmorphism (بلور بیشتر) --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px); /* بلور بیشتر */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* انیمیشن فنری نرم */
+        }
+        
+        /* --- پایه هاور (حرکت و پس‌زمینه) --- */
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-8px) scale(1.02);
+            z-index: 20;
+        }
+
+        /* --- نئون‌های اختصاصی --- */
+        
+        /* نئون نارنجی (Amber/Orange) */
+        .neon-amber:hover {
+            box-shadow: 
+                0 0 20px rgba(251, 191, 36, 0.5), 
+                0 0 40px rgba(251, 191, 36, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-color: #fbbf24;
+        }
+
+        /* نئون سبز (Emerald) */
+        .neon-emerald:hover {
+            box-shadow: 
+                0 0 20px rgba(16, 185, 129, 0.5), 
+                0 0 40px rgba(16, 185, 129, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-color: #34d399;
+        }
+
+        /* نئون بنفش (Purple) */
+        .neon-purple:hover {
+            box-shadow: 
+                0 0 20px rgba(168, 85, 247, 0.5), 
+                0 0 40px rgba(168, 85, 247, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-color: #c084fc;
+        }
+
+        /* نئون قرمز/رز (Rose/Red) */
+        .neon-rose:hover {
+            box-shadow: 
+                0 0 20px rgba(251, 113, 133, 0.5), 
+                0 0 40px rgba(251, 113, 133, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-color: #fb7185;
+        }
+
+
+        /* --- استایل جذاب برای موبایل (چون هاور نداریم) --- */
+        @media (max-width: 768px) {
+            .glass-card {
+                animation: float 6s ease-in-out infinite;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            }
+            /* تاخیر در انیمیشن هر کارت برای زیبایی بیشتر */
+            .glass-card:nth-child(1) { animation-delay: 0s; }
+            .glass-card:nth-child(2) { animation-delay: 1.5s; }
+            .glass-card:nth-child(3) { animation-delay: 3s; }
+            .glass-card:nth-child(4) { animation-delay: 4.5s; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- ساختار کتاب --- */
+        .book-container { position: relative; }
+
+        .page {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center;
+            border-radius: 0.5rem;
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            z-index: 1;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 10;
+        }
+        
+        .page > header, .page > footer {
+            flex-shrink: 0;
+            width: 100%;
+            padding: 1.5rem 2.5rem;
+        }
+        
+        .page > main {
+            flex-grow: 1;
+            overflow: hidden;
+            width: 100%;
+            padding: 1rem 2.5rem;
+            position: relative;
+        }
+        
+        #tocPage main { overflow-y: auto; }
+
+        /* --- صفحات خاص --- */
+        #coverPage {
+            background-color: #f0fdf4;
+            background-image: radial-gradient(#10b981 0.5px, transparent 0.5px), radial-gradient(#10b981 0.5px, #f0fdf4 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        
+        #tocPage { background: linear-gradient(to bottom, #f8fafc, #f0fdf4); }
+
+        .content-page { padding: 0; background-color: #fff; }
+        .content-page > header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.95);
+        }
+        .content-page > main { padding: 0; background-color: white; }
+
+        /* --- بازگردانی استایل‌های جلد اصلی --- */
+        .cover-clickable-area {
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .cover-clickable-area h1, .cover-clickable-area h2 {
+            transition: color 0.3s ease-in-out;
+        }
+
+        .cover-clickable-area:hover h1, .cover-clickable-area:hover h2 {
+            color: #059669;
+        }
+
+        .responsive-h1 {
+            font-size: clamp(1.75rem, 5vw, 3rem);
+            line-height: 1.2;
+        }
+        .responsive-h2 {
+            font-size: clamp(1.1rem, 3.5vw, 1.875rem);
+            line-height: 1.4;
+        }
+
+        /* --- Tooltip --- */
+        .tooltip-container .tooltip {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 0.5rem;
+        }
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* --- Loading Spinner --- */
+        .loader-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            z-index: 50;
+            transition: opacity 0.3s;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #ecfdf5;
+            border-top: 4px solid #059669;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        iframe { display: block; }
+    </style>
 </head>
-<body>
-  <h1>Ardabil Project</h1>
-  <p>Welcome to Ardabil GitHub Pages.</p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="bookContainer" class="book-container w-full max-w-5xl h-[95vh] max-h-[960px] glass-panel rounded-lg shadow-2xl">
+        
+        <!-- Page 1: Cover -->
+        <div id="coverPage" class="page active">
+            <header class="flex justify-center pt-2 md:pt-4">
+                <!-- لوگو بزرگتر شد (30% increase approx) -->
+                <div class="logo-shine-container rounded-xl">
+                    <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگوی منطقه آزاد" class="h-32 md:h-40 max-h-[20vh] object-contain"
+                       onerror="this.onerror=null; this.src='https://placehold.co/400x200/10b981/ffffff?text=Free+Zone+Logo';">
+                </div>
+            </header>
+            
+            <main class="text-center cover-clickable-area" onclick="navigateTo('tocPage')">
+                <div>
+                    <h1 class="responsive-h1 font-extrabold text-gray-800">اطلس سرمایه گذاری</h1>
+                    <h2 class="responsive-h2 font-bold text-gray-700 mt-2">منطقه آزاد اردبیل-بیله سوار</h2>
+                    <p class="text-gray-500 mt-4 text-xs">برای مشاهده فهرست، روی عنوان بالا کلیک کنید</p>
+                </div>
+            </main>
+
+            <footer class="flex flex-col items-center pt-2 pb-16 md:pb-8">
+                <div class="flex items-center justify-center mb-4 transition-all hover:scale-105">
+                    <!-- لوگو کوچکتر شد -->
+                    <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگوی فجر توسعه" class="h-12 md:h-14 object-contain"
+                         onerror="this.onerror=null; this.src='https://placehold.co/200x100/e2e8f0/334155?text=Fajr+Tose-e';">
+                </div>
+                <div class="text-sm text-gray-600 text-center">
+                    <p>
+                        تهیه شده توسط 
+                        <span class="relative inline-block tooltip-container font-semibold cursor-pointer text-emerald-800">
+                            مهندسین مشاور فجر توسعه
+                            <span class="tooltip absolute w-max bg-gray-800 text-white text-xs rounded py-1 px-3 text-right leading-relaxed z-50">
+                                تحلیل و طراحی : حمیدرضا ترابی <br> hr.torabii@gmail.com
+                            </span>
+                        </span>
+                    </p>
+                    <p>پاییز 1404</p>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Page 2: Table of Contents -->
+        <div id="tocPage" class="page">
+            <header class="flex justify-between items-center border-b border-emerald-100/50 pb-2 glass-panel !bg-white/50 !border-0 rounded-t-lg mt-0 pt-4 px-6">
+                <h2 class="text-xl md:text-2xl font-bold text-emerald-900">فهرست مطالب</h2>
+                <button id="backToCoverButton" title="بازگشت به جلد" class="flex items-center p-2 rounded-full hover:bg-emerald-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span class="text-xs text-emerald-700 font-medium mr-1">بازگشت</span>
+                </button>
+            </header>
+            <main class="custom-scrollbar">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+                    
+                    <!-- Card 1: Logistics (Orange Neon) -->
+                    <!-- لطفا لینک مورد نظر را در قسمت data-link قرار دهید -->
+                    <div class="toc-card glass-card neon-amber rounded-lg p-5 cursor-pointer relative group overflow-hidden text-center border border-emerald-100/50" 
+                         data-page="logisticsPage" 
+                         data-link="https://hrtorabii-404.github.io/Ardabil/Logistics/">
+                        <div class="absolute top-0 right-0 w-1 h-full bg-amber-400 group-hover:h-full transition-all"></div>
+                        <div class="flex flex-col items-center justify-center h-full">
+                            <div class="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">🚛</div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-amber-600 transition-colors">پارک لجستیک</h3>
+                            <h4 class="text-xs font-mono text-gray-400 mt-1">Logistics Park</h4>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Agro Park (Green Neon) -->
+                    <!-- لطفا لینک مورد نظر را در قسمت data-link قرار دهید -->
+                    <div class="toc-card glass-card neon-emerald rounded-lg p-5 cursor-pointer relative group overflow-hidden text-center border border-emerald-100/50" 
+                         data-page="agroPage" 
+                         data-link="https://hrtorabii-404.github.io/Ardabil/AgroPark/">
+                         <div class="absolute top-0 right-0 w-1 h-full bg-emerald-500 group-hover:h-full transition-all"></div>
+                         <div class="flex flex-col items-center justify-center h-full">
+                            <div class="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">🏭</div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-emerald-700 transition-colors">پارک صنایع تبدیلی و تکمیلی کشاورزی</h3>
+                            <h4 class="text-xs font-mono text-gray-400 mt-1">Agro Park</h4>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Agri-Tech (Purple Neon) -->
+                    <!-- لطفا لینک مورد نظر را در قسمت data-link قرار دهید -->
+                    <div class="toc-card glass-card neon-purple rounded-lg p-5 cursor-pointer relative group overflow-hidden text-center border border-emerald-100/50" 
+                         data-page="techPage" 
+                         data-link="https://hrtorabii-404.github.io/Ardabil/Hub/">
+                         <div class="absolute top-0 right-0 w-1 h-full bg-purple-400 group-hover:h-full transition-all"></div>
+                         <div class="flex flex-col items-center justify-center h-full">
+                            <div class="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">💡</div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-purple-700 transition-colors">هاب نوآوری و دانش‌بنیان کشاورزی</h3>
+                            <h4 class="text-xs font-mono text-gray-400 mt-1">Agri-Tech Hub</h4>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Tourism (Red/Rose Neon) -->
+                    <!-- لطفا لینک مورد نظر را در قسمت data-link قرار دهید -->
+                    <div class="toc-card glass-card neon-rose rounded-lg p-5 cursor-pointer relative group overflow-hidden text-center border border-emerald-100/50" 
+                         data-page="tourismPage" 
+                         data-link="https://hrtorabii-404.github.io/Ardabil/Tourism/">
+                         <div class="absolute top-0 right-0 w-1 h-full bg-rose-400 group-hover:h-full transition-all"></div>
+                         <div class="flex flex-col items-center justify-center h-full">
+                            <div class="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">🌾</div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-rose-700 transition-colors">پارک گردشگری و خدمات کشاورزی</h3>
+                            <h4 class="text-xs font-mono text-gray-400 mt-1">Agri-Tourism Park</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+            <footer class="text-center py-2 text-xs text-gray-500">
+                <p>اطلس جامع سرمایه‌گذاری منطقه آزاد اردبیل - بیله‌سوار</p>
+            </footer>
+        </div>
+        
+        <!-- --- Content Pages (Placeholders) --- -->
+
+        <!-- 1. Logistics -->
+        <div id="logisticsPage" class="page content-page">
+            <header class="flex justify-between items-center glass-panel !bg-white/90">
+                <h2 class="text-lg font-bold text-gray-800">پارک لجستیک</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleFullScreen('logisticsFrame')" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors" title="تمام صفحه">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                    <button class="back-to-toc flex items-center p-2 rounded-full hover:bg-gray-300/50 transition-colors" title="بازگشت به فهرست"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg><span class="text-xs text-gray-500 font-light mr-1">بازگشت</span></button>
+                </div>
+            </header>
+            <main>
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p class="mt-4 text-sm text-emerald-600 font-bold">در حال بارگذاری...</p>
+                </div>
+                <iframe id="logisticsFrame" src="about:blank" class="w-full h-full border-0 opacity-0 transition-opacity duration-500"></iframe>
+            </main>
+        </div>
+
+        <!-- 2. Agro -->
+        <div id="agroPage" class="page content-page">
+            <header class="flex justify-between items-center glass-panel !bg-white/90">
+                <h2 class="text-lg font-bold text-gray-800">پارک صنایع تبدیلی و تکمیلی</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleFullScreen('agroFrame')" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors" title="تمام صفحه">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                    <button class="back-to-toc flex items-center p-2 rounded-full hover:bg-gray-300/50 transition-colors" title="بازگشت به فهرست"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg><span class="text-xs text-gray-500 font-light mr-1">بازگشت</span></button>
+                </div>
+            </header>
+            <main>
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p class="mt-4 text-sm text-emerald-600 font-bold">در حال بارگذاری...</p>
+                </div>
+                <iframe id="agroFrame" src="about:blank" class="w-full h-full border-0 opacity-0 transition-opacity duration-500"></iframe>
+            </main>
+        </div>
+
+        <!-- 3. Tech -->
+        <div id="techPage" class="page content-page">
+            <header class="flex justify-between items-center glass-panel !bg-white/90">
+                <h2 class="text-lg font-bold text-gray-800">هاب نوآوری و دانش‌بنیان</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleFullScreen('techFrame')" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors" title="تمام صفحه">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                    <button class="back-to-toc flex items-center p-2 rounded-full hover:bg-gray-300/50 transition-colors" title="بازگشت به فهرست"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg><span class="text-xs text-gray-500 font-light mr-1">بازگشت</span></button>
+                </div>
+            </header>
+            <main>
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p class="mt-4 text-sm text-emerald-600 font-bold">در حال بارگذاری...</p>
+                </div>
+                <iframe id="techFrame" src="about:blank" class="w-full h-full border-0 opacity-0 transition-opacity duration-500"></iframe>
+            </main>
+        </div>
+
+        <!-- 4. Tourism -->
+        <div id="tourismPage" class="page content-page">
+            <header class="flex justify-between items-center glass-panel !bg-white/90">
+                <h2 class="text-lg font-bold text-gray-800">پارک گردشگری و خدمات</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleFullScreen('tourismFrame')" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors" title="تمام صفحه">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                    <button class="back-to-toc flex items-center p-2 rounded-full hover:bg-gray-300/50 transition-colors" title="بازگشت به فهرست"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg><span class="text-xs text-gray-500 font-light mr-1">بازگشت</span></button>
+                </div>
+            </header>
+            <main>
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p class="mt-4 text-sm text-emerald-600 font-bold">در حال بارگذاری...</p>
+                </div>
+                <iframe id="tourismFrame" src="about:blank" class="w-full h-full border-0 opacity-0 transition-opacity duration-500"></iframe>
+            </main>
+        </div>
+
+    </div>
+
+<script>
+    const pages = document.querySelectorAll('.page');
+    const backToCoverButton = document.getElementById('backToCoverButton');
+    const backToTocButtons = document.querySelectorAll('.back-to-toc');
+    const tocCards = document.querySelectorAll('.toc-card');
+
+    let navigationHistory = ['coverPage'];
+
+    function showPage(pageId) {
+        pages.forEach(page => {
+            page.classList.toggle('active', page.id === pageId);
+        });
+    }
+
+    function navigateTo(pageId) {
+        const current = navigationHistory[navigationHistory.length - 1];
+        if (pageId !== current) {
+            navigationHistory.push(pageId);
+        }
+        showPage(pageId);
+    }
+
+    function goBack() {
+        if (navigationHistory.length > 1) {
+            navigationHistory.pop();
+            const prevPage = navigationHistory[navigationHistory.length - 1];
+            showPage(prevPage);
+            
+            if (prevPage === 'tocPage' || prevPage === 'coverPage') {
+                window.focus();
+            }
+        }
+    }
+
+    // --- Toggle Fullscreen Function ---
+    window.toggleFullScreen = function(elementId) {
+        const iframe = document.getElementById(elementId);
+        if (!document.fullscreenElement) {
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Safari */
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { /* IE11 */
+                iframe.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    }
+
+    // --- Event Listeners ---
+    backToCoverButton.addEventListener('click', () => navigateTo('coverPage'));
+    
+    backToTocButtons.forEach(button => {
+        button.addEventListener('click', () => navigateTo('tocPage'));
+    });
+
+    tocCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const pageId = card.dataset.page;
+            const linkUrl = card.dataset.link; // دریافت لینک تعریف شده
+
+            if (pageId) {
+                const targetPage = document.getElementById(pageId);
+                const iframe = targetPage.querySelector('iframe');
+                const loader = targetPage.querySelector('.loader-container');
+                
+                if (iframe) {
+                   // نمایش لودینگ
+                   loader.style.display = 'flex';
+                   iframe.style.opacity = '0';
+                   
+                   // تنظیم لینک جدید
+                   // اگر لینکی تعریف شده باشد، آن را ست کن. اگر نه، همان حالت قبلی (خالی) بماند
+                   if (linkUrl && linkUrl.trim() !== "") {
+                        iframe.src = linkUrl;
+                   } else {
+                        // اگر لینکی نباشد، برای تست همین صفحه سفید بماند یا about:blank
+                        // iframe.src = 'about:blank'; 
+                   }
+
+                   iframe.onload = function() {
+                       loader.style.display = 'none';
+                       iframe.style.opacity = '1';
+                   };
+                   
+                   // Fallback time
+                   setTimeout(() => {
+                       loader.style.display = 'none';
+                       iframe.style.opacity = '1';
+                   }, 1000); 
+                }
+
+                navigateTo(pageId);
+            }
+        });
+    });
+    
+    window.addEventListener('message', function(e) {
+        if (e && e.data && e.data.type === 'NAVIGATE_BACK') {
+            goBack();
+        }
+    });
+
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+            const activePage = document.querySelector('.page.active');
+            if (document.hasFocus() && activePage) {
+                if (activePage.id === 'tocPage') {
+                    e.preventDefault();
+                    goBack();
+                }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
