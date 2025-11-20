@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پارک صنایع تبدیلی کشاورزی</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            /* Luxury Agro-Industry Palette */
+            --primary-color: #059669; /* Emerald Green */
+            --neon-emerald: #10b981;  /* Bright Emerald */
+            --neon-gold: #f59e0b;     /* Amber/Gold */
+            
+            --glass-bg: rgba(255, 255, 255, 0.75); /* Slightly more opaque for luxury feel */
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --text-dark: #1c1917;     /* Warm Black */
+            --text-light: #57534e;    /* Warm Grey */
+            --org-green: #008f39;     /* Footer Org Color */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            /* Luxury Gradient: Cream to Mint to Pale Blue */
+            background: linear-gradient(135deg, #fffbeb 0%, #ecfdf5 50%, #f0f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Shapes (Changed to Gold & Green) */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            animation: float 12s infinite ease-in-out alternate;
+            opacity: 0.5;
+        }
+        .shape-1 {
+            width: 450px;
+            height: 450px;
+            background: var(--neon-gold); /* Gold Glow */
+            top: -150px;
+            left: -100px;
+        }
+        .shape-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--neon-emerald); /* Emerald Glow */
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -6s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 60px); }
+        }
+
+        /* --- Header Styles --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+            animation: slideDownFade 1s ease-out;
+        }
+
+        @keyframes slideDownFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-content {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-emoji {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+            display: inline-block;
+        }
+
+        /* Factory Smoke Animation */
+        .emoji-factory { animation: puff 3s infinite ease-in-out; }
+        @keyframes puff {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05) translateY(-5px); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            /* Gold & Emerald Gradient Text */
+            background: linear-gradient(to right, #047857 0%, #d97706 30%, #059669 60%, #047857 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+            animation: shine 6s linear infinite;
+            line-height: 1.4;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            position: relative;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .subtitle::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            /* Gold/Green Line */
+            background: linear-gradient(90deg, var(--neon-emerald), var(--neon-gold));
+            margin: 12px auto 0;
+            border-radius: 4px;
+            opacity: 0.8;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); /* Slightly wider cards */
+            gap: 30px;
+            width: 100%;
+            max-width: 1300px;
+            z-index: 1;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08); /* More subtle, premium shadow */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 340px; /* Taller for detailed titles */
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.2); /* Emerald shadow */
+            border-color: #fff;
+        }
+
+        /* Gold/Green Border Top on Hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--neon-gold), var(--neon-emerald));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .card:hover::before { opacity: 1; }
+
+        /* --- Emoji Styling --- */
+        .emoji {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12));
+            transition: all 0.3s ease;
+            transform-origin: center bottom; 
+            z-index: 1;
+        }
+
+        /* --- Specific Animations (On Hover) --- */
+
+        /* 1. Fries: Shake (Tada) */
+        .card:hover .emoji-fries { animation: tada 1.2s ease infinite; }
+
+        /* 2. Meat: Pulse (Heartbeat) */
+        .card:hover .emoji-meat { animation: pulseDeep 1.5s infinite; }
+        @keyframes pulseDeep {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* 3. Sunflower: Rotate Slow */
+        .card:hover .emoji-sun { 
+            transform-origin: center center;
+            animation: spinSlow 6s linear infinite; 
+        }
+        @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+        /* 4. Yarn: Bounce/Roll */
+        .card:hover .emoji-yarn { animation: bounceRoll 2s infinite; }
+        @keyframes bounceRoll {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+
+        /* 5. Box: RubberBand */
+        .card:hover .emoji-box { animation: rubberBand 1s infinite; }
+
+        /* 6. Milk: Wobble */
+        .card:hover .emoji-milk { animation: wobble 1.5s infinite; }
+
+        /* 7. Chicken/Feed: Pecking/Bobbing */
+        .card:hover .emoji-chicken { animation: peck 1s infinite; }
+        @keyframes peck {
+            0%, 100% { transform: rotate(0) translateY(0); }
+            25% { transform: rotate(15deg) translateY(5px); } /* Peck down */
+            50% { transform: rotate(0) translateY(0); }
+        }
+
+        /* 8. Peanut: Swing */
+        .card:hover .emoji-peanut { 
+            transform-origin: top center;
+            animation: swing 2s ease-in-out infinite; 
+        }
+
+        /* 9. Drink: Tip/Cheers */
+        .card:hover .emoji-drink { animation: cheers 2s infinite; }
+        @keyframes cheers {
+            0%, 100% { transform: rotate(0); }
+            50% { transform: rotate(-15deg) translateX(-5px); }
+        }
+
+        /* 10. Hotdog: Squeeze */
+        .card:hover .emoji-hotdog { animation: rubberBand 1.2s infinite; }
+
+        /* 11. Turkey: Waddle */
+        .card:hover .emoji-turkey { animation: waddle 1s infinite; }
+        @keyframes waddle {
+            0%, 100% { transform: rotate(-5deg) translateX(-3px); }
+            50% { transform: rotate(5deg) translateX(3px); }
+        }
+
+        /* 12. Tools: Hammering */
+        .card:hover .emoji-tools { animation: hammer 1s infinite; }
+        @keyframes hammer {
+            0% { transform: rotate(0); }
+            30% { transform: rotate(-45deg); } /* Raise hammer */
+            50% { transform: rotate(10deg); }  /* Hit */
+            70% { transform: rotate(0); }
+        }
+
+        /* 13. Tractor (Filter): Rumble */
+        .card:hover .emoji-tractor { animation: rumble 0.2s infinite; }
+        @keyframes rumble {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            75% { transform: translate(-1px, 1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+        
+        /* Re-using previous Keyframes where needed */
+        @keyframes tada {
+            0% { transform: scale(1); }
+            10%, 20% { transform: scale(0.9) rotate(-3deg); }
+            30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+            40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        @keyframes rubberBand {
+            0% { transform: scale3d(1, 1, 1); }
+            30% { transform: scale3d(1.25, 0.75, 1); }
+            40% { transform: scale3d(0.75, 1.25, 1); }
+            50% { transform: scale3d(1.15, 0.85, 1); }
+            65% { transform: scale3d(0.95, 1.05, 1); }
+            75% { transform: scale3d(1.05, 0.95, 1); }
+            100% { transform: scale3d(1, 1, 1); }
+        }
+        @keyframes wobble {
+            0%, 100% { transform: translateX(0%); }
+            15% { transform: translateX(-15%) rotate(-5deg); }
+            30% { transform: translateX(10%) rotate(3deg); }
+            45% { transform: translateX(-10%) rotate(-3deg); }
+            60% { transform: translateX(5%) rotate(2deg); }
+            75% { transform: translateX(-5%) rotate(-1deg); }
+        }
+        @keyframes swing {
+            0% { transform: rotate(0deg); }
+            20% { transform: rotate(15deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(5deg); }
+            80% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+
+        /* Typography */
+        .card-title-fa {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .card-title-en {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transform: translateY(101%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            color: var(--text-dark);
+        }
+
+        .card:hover .overlay { transform: translateY(0); }
+        .card:hover .emoji { 
+            z-index: 3; 
+            position: absolute;
+            top: 15px;
+            transition: top 0.4s ease;
+            /* Scale down slightly on hover to not block title if overlapping, but design pushes title under overlay */
+            transform: scale(0.7); 
+        }
+
+        .nature-label {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--neon-gold);
+            padding-bottom: 5px;
+        }
+
+        .nature-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #44403c;
+            font-weight: 500;
+        }
+
+        /* Alternating Hover Colors for Variety */
+        .card:nth-child(odd):hover { border-color: rgba(16, 185, 129, 0.5); }
+        .card:nth-child(even):hover { border-color: rgba(245, 158, 11, 0.5); }
+
+
+        /* --- Footer (Same as before) --- */
+        footer {
+            margin-top: 80px;
+            padding: 30px 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .footer-logo {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover { transform: scale(1.05); }
+
+        .footer-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-main-text {
+            color: var(--org-green);
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-shadow: 0 2px 15px rgba(0, 143, 57, 0.15);
+            animation: textGlow 3s infinite alternate ease-in-out;
+        }
+
+        .footer-sub-text {
+            color: var(--org-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+            animation: fadeInText 2s ease-in-out;
+        }
+
+        .footer-date {
+            color: var(--org-green);
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes textGlow { from { text-shadow: 0 0 2px rgba(0, 143, 57, 0.1); transform: scale(1); } to { text-shadow: 0 0 12px rgba(0, 143, 57, 0.4); transform: scale(1.02); } }
+        @keyframes fadeInText { from { opacity: 0; } to { opacity: 0.9; } }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .grid-container { grid-template-columns: 1fr; }
+            .card { height: 300px; }
+            .card:hover .emoji { top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Backgrounds (Gold & Emerald) -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="title-wrapper">
+                <span class="header-emoji emoji-factory">🏭</span>
+                <h1>پارک صنایع تبدیلی و تکمیلی کشاورزی</h1>
+            </div>
+            <div class="subtitle">(Agro-Industrial Processing Park)</div>
+        </div>
+    </header>
+
+    <div class="grid-container">
+
+        <!-- 1. French Fries -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Potato/" class="card">
+            <div class="emoji emoji-fries">🍟</div>
+            <div class="card-title-fa">کارخانه فرآوری سیب‌زمینی (فرنچ‌فرایز)</div>
+            <div class="card-title-en">French Fries & Starch Plant</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید خلال منجمد و نشاسته از سیب‌زمینی مغان.</div>
+            </div>
+        </a>
+
+        <!-- 2. Slaughterhouse -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Slaughterhouse/" class="card">
+            <div class="emoji emoji-meat">🥩</div>
+            <div class="card-title-fa">کشتارگاه صنعتی و بسته‌بندی گوشت</div>
+            <div class="card-title-en">Industrial Slaughterhouse</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تبدیل دام زنده به گوشت وکیوم و حلال صادراتی.</div>
+            </div>
+        </a>
+
+        <!-- 3. Oilseed -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Oilseed" class="card">
+            <div class="emoji emoji-sun">🌻</div>
+            <div class="card-title-fa">کارخانه روغن‌کشی و تصفیه روغن</div>
+            <div class="card-title-en">Oilseed Extraction & Refinery</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">استحصال روغن از کلزا/سویا و تولید کنجاله دام.</div>
+            </div>
+        </a>
+
+        <!-- 4. Cotton -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/CottonGinning" class="card">
+            <div class="emoji emoji-yarn">🧶</div>
+            <div class="card-title-fa">کارخانه پنبه پاک‌کنی و الیاف</div>
+            <div class="card-title-en">Cotton Ginning Plant</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">فرآوری وش پنبه برای نساجی و روغن‌کشی.</div>
+            </div>
+        </a>
+
+        <!-- 5. Packaging -->
+        <a href="#" class="card">
+            <div class="emoji emoji-box">📦</div>
+            <div class="card-title-fa">تولید کارتن و سبد بسته‌بندی (SME)</div>
+            <div class="card-title-en">Packaging Materials Production</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید سبد پلاستیکی و کارتن برای کشاورزان منطقه.</div>
+            </div>
+        </a>
+
+        <!-- 6. Dairy -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Milk/" class="card">
+            <div class="emoji emoji-milk">🥛</div>
+            <div class="card-title-fa">کارخانه لبنیات صادراتی (شیرخشک/کره)</div>
+            <div class="card-title-en">Dairy Powder & Butter Plant</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">فرآوری شیر مازاد منطقه به محصولات ماندگار.</div>
+            </div>
+        </a>
+
+        <!-- 7. Animal Feed -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/AnimalFeed" class="card">
+            <div class="emoji emoji-chicken">🐓</div>
+            <div class="card-title-fa">تولید خوراک دام و طیور (پلت)</div>
+            <div class="card-title-en">Animal Feed & Pellet Mill</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تبدیل ضایعات کشاورزی به خوراک آماده دام.</div>
+            </div>
+        </a>
+
+        <!-- 8. Peanut -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Peanut" class="card">
+            <div class="emoji emoji-peanut">🥜</div>
+            <div class="card-title-fa">فرآوری و کره بادام زمینی</div>
+            <div class="card-title-en">Peanut Processing & Butter</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید محصولات لوکس از بادام زمینی مغان.</div>
+            </div>
+        </a>
+
+        <!-- 9. Beverages -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Probiotic/" class="card">
+            <div class="emoji emoji-drink">🍹</div>
+            <div class="card-title-fa">نوشیدنی‌های سلامت‌محور و گیاهی</div>
+            <div class="card-title-en">Functional Herbal Beverages</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید نوشیدنی‌های طبیعی و صادراتی.</div>
+            </div>
+        </a>
+
+        <!-- 10. Meat Processing -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Nuggets/" class="card">
+            <div class="emoji emoji-hotdog">🌭</div>
+            <div class="card-title-fa">فرآورده‌های گوشتی (سوسیس/ناگت)</div>
+            <div class="card-title-en">Meat Processing Plant</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید غذای آماده و نیمه‌آماده پروتئینی.</div>
+            </div>
+        </a>
+
+        <!-- 11. Turkey -->
+        <a href="#" class="card">
+            <div class="emoji emoji-turkey">🦃</div>
+            <div class="card-title-fa">پرورش صنعتی بوقلمون گوشتی</div>
+            <div class="card-title-en">Industrial Turkey Farming</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید پروتئین سفید خاص برای صادرات.</div>
+            </div>
+        </a>
+
+        <!-- 12. Hand Tools -->
+        <a href="#" class="card">
+            <div class="emoji emoji-tools">🛠️</div>
+            <div class="card-title-fa">تولید ابزارآلات دستی کشاورزی (SME)</div>
+            <div class="card-title-en">Agricultural Hand Tools Mfg</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید بیل، کلنگ و قیچی باغبانی برای بازار منطقه.</div>
+            </div>
+        </a>
+
+        <!-- 13. Filters -->
+        <a href="#" class="card">
+            <div class="emoji emoji-tractor">🚜</div>
+            <div class="card-title-fa">تولید فیلترهای صنعتی ماشین‌آلات (SME)</div>
+            <div class="card-title-en">Industrial Filters Production</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تأمین قطعات مصرفی هزاران تراکتور و کمباین منطقه.</div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد اردبیل" class="footer-logo">
+        <div class="footer-content">
+            <div class="footer-main-text">منطقه آزاد تجاری-صنعتی اردبیل-بیله سوار</div>
+            <div class="footer-sub-text">مهندسین مشاور فجرتوسعه</div>
+            <div class="footer-date">پاییز 1404</div>
+        </div>
+    </footer>
+
+</body>
+</html>
