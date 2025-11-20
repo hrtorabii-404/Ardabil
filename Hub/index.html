@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هاب نوآوری و دانش‌بنیان کشاورزی</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            /* Agri-Tech Palette: Cyan (Tech) + Lime (Growth) */
+            --primary-color: #0891b2; /* Cyan 700 */
+            --neon-cyan: #22d3ee;     /* Cyan 400 */
+            --neon-lime: #a3e635;     /* Lime 400 */
+            --tech-purple: #a855f7;   /* Slight purple accent for innovation */
+            
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --text-dark: #1e293b;     /* Slate 800 */
+            --text-light: #64748b;    /* Slate 500 */
+            --org-green: #008f39;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            /* Tech-Fresh Gradient */
+            background: linear-gradient(135deg, #ecfeff 0%, #f7fee7 50%, #eff6ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Shapes */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out alternate;
+            opacity: 0.5;
+        }
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--neon-cyan);
+            top: -150px;
+            right: -100px;
+        }
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--neon-lime);
+            bottom: -50px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.1); }
+        }
+
+        /* --- Header Styles --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+            animation: slideDownFade 1s ease-out;
+        }
+
+        @keyframes slideDownFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-content {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-emoji {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.4)); /* Cyan glow */
+            display: inline-block;
+        }
+
+        /* Bulb Animation: Glow Pulse */
+        .emoji-bulb { animation: bulbGlow 2s infinite alternate; }
+        @keyframes bulbGlow {
+            from { filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.5)); transform: scale(1); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 255, 0, 0.9)); transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            /* Cyan to Lime Gradient */
+            background: linear-gradient(to right, #0891b2 0%, #65a30d 50%, #0891b2 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 10px 30px rgba(34, 211, 238, 0.2);
+            animation: shine 6s linear infinite;
+            line-height: 1.4;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            position: relative;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .subtitle::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-lime), var(--neon-cyan));
+            margin: 12px auto 0;
+            border-radius: 4px;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1300px;
+            z-index: 1;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -5px rgba(8, 145, 178, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 350px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px -10px rgba(34, 211, 238, 0.3);
+            border-color: #fff;
+        }
+
+        /* Tech Line Border on Hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-lime));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .card:hover::before { opacity: 1; }
+
+        /* --- Emoji Animations --- */
+        .emoji {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            display: inline-block;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+            transform-origin: center center;
+            z-index: 1;
+        }
+
+        /* 1. DNA: Rotate 3D-ish */
+        .card:hover .emoji-dna { animation: spinDNA 2s linear infinite; }
+        @keyframes spinDNA {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* 2. Tomato (Greenhouse): Grow/Pulse */
+        .card:hover .emoji-tomato { animation: pulseGrow 1.5s infinite; }
+        @keyframes pulseGrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* 3. Herb (Refinery): Float/Bubble */
+        .card:hover .emoji-herb { animation: floatBubble 2s ease-in-out infinite; }
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* 4. Plate: Spin Flat */
+        .card:hover .emoji-plate { animation: spinFlat 3s linear infinite; }
+        @keyframes spinFlat {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 5. Bug: Wiggle/Crawl */
+        .card:hover .emoji-bug { animation: wiggle 0.5s infinite; }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* 6. Recycle: Spin Counter-Clockwise */
+        .card:hover .emoji-recycle { animation: spinCCW 3s linear infinite; }
+        @keyframes spinCCW {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* 7. Satellite (IoT): Pulse Waves */
+        .card:hover .emoji-sat { animation: pulseWave 1.5s infinite; }
+        @keyframes pulseWave {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 8. Rocket: Shake/Launch */
+        .card:hover .emoji-rocket { animation: launch 0.8s infinite; }
+        @keyframes launch {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* 9. Mushroom: Pop */
+        .card:hover .emoji-mushroom { animation: popUp 1s infinite; }
+        @keyframes popUp {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.2) translateY(-5px); }
+        }
+
+        /* 10. Seedling (Plant Meat): Morph */
+        .card:hover .emoji-sprout { animation: sway 2s ease-in-out infinite; }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* 11. Fish: Swim */
+        .card:hover .emoji-fish { animation: swim 1.5s infinite ease-in-out; }
+        @keyframes swim {
+            0%, 100% { transform: translateX(-5px) rotateY(0); }
+            50% { transform: translateX(5px) rotateY(10deg); }
+        }
+
+        /* 12. Sheaf (Fodder): Wave */
+        .card:hover .emoji-sheaf { animation: waveSheaf 2s ease-in-out infinite; transform-origin: bottom center; }
+        @keyframes waveSheaf {
+            0%, 100% { transform: skewX(-5deg); }
+            50% { transform: skewX(5deg); }
+        }
+
+        /* 13. Tree: Gentle Sway */
+        .card:hover .emoji-tree { animation: swayTree 3s ease-in-out infinite; transform-origin: bottom center; }
+        @keyframes swayTree {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        
+        /* 14. Seedling Factory: Rise */
+        .card:hover .emoji-seedling-factory { animation: riseUp 1.5s infinite; }
+        @keyframes riseUp {
+            0% { transform: translateY(5px); opacity: 0.8; }
+            50% { transform: translateY(-5px); opacity: 1; }
+            100% { transform: translateY(5px); opacity: 0.8; }
+        }
+
+
+        /* Typography */
+        .card-title-fa {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .card-title-en {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transform: translateY(101%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            color: var(--text-dark);
+        }
+
+        .card:hover .overlay { transform: translateY(0); }
+        .card:hover .emoji { 
+            z-index: 3; 
+            position: absolute;
+            top: 15px;
+            transition: top 0.4s ease;
+            transform: scale(0.65); 
+        }
+
+        .nature-label {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--neon-cyan);
+            padding-bottom: 5px;
+        }
+
+        .nature-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .card:nth-child(odd):hover { border-color: rgba(34, 211, 238, 0.5); }
+        .card:nth-child(even):hover { border-color: rgba(163, 230, 53, 0.5); }
+
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 80px;
+            padding: 30px 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .footer-logo {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover { transform: scale(1.05); }
+
+        .footer-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-main-text {
+            color: var(--org-green);
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-shadow: 0 2px 15px rgba(0, 143, 57, 0.15);
+            animation: textGlow 3s infinite alternate ease-in-out;
+        }
+
+        .footer-sub-text {
+            color: var(--org-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+            animation: fadeInText 2s ease-in-out;
+        }
+
+        .footer-date {
+            color: var(--org-green);
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes textGlow { from { text-shadow: 0 0 2px rgba(0, 143, 57, 0.1); transform: scale(1); } to { text-shadow: 0 0 12px rgba(0, 143, 57, 0.4); transform: scale(1.02); } }
+        @keyframes fadeInText { from { opacity: 0; } to { opacity: 0.9; } }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .grid-container { grid-template-columns: 1fr; }
+            .card { height: 320px; }
+            .card:hover .emoji { top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Backgrounds -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="title-wrapper">
+                <span class="header-emoji emoji-bulb">💡</span>
+                <h1>هاب نوآوری و دانش‌بنیان کشاورزی</h1>
+            </div>
+            <div class="subtitle">(Agri-Tech & Innovation Hub)</div>
+        </div>
+    </header>
+
+    <div class="grid-container">
+
+        <!-- 1. Hybrid Seed -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/HybridVegetable/" class="card">
+            <div class="emoji emoji-dna">🧬</div>
+            <div class="card-title-fa">تولید بذر هیبرید سبزی و صیفی</div>
+            <div class="card-title-en">Hybrid Seed Production Center</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">استراتژیک‌ترین محصول برای خودکفایی کشاورزی.</div>
+            </div>
+        </a>
+
+        <!-- 2. Greenhouse -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Hydroponic/" class="card">
+            <div class="emoji emoji-tomato">🍅</div>
+            <div class="card-title-fa">مجتمع گلخانه‌ای هیدروپونیک (نسل ۴)</div>
+            <div class="card-title-en">High-Tech Glass Greenhouse</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید محصولات جالیزی خارج از فصل برای صادرات.</div>
+            </div>
+        </a>
+
+        <!-- 3. Phyto-Refinery -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Phyto-Refinery/" class="card">
+            <div class="emoji emoji-herb">🌿</div>
+            <div class="card-title-fa">پالایشگاه گیاهان دارویی (مواد مؤثره)</div>
+            <div class="card-title-en">Phyto-Refinery & API Extraction</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">استخراج اسانس و رنگدانه با ارزش افزوده دارویی.</div>
+            </div>
+        </a>
+
+        <!-- 4. Biodegradable Tableware -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Biodegradable/" class="card">
+            <div class="emoji emoji-plate">🍽️</div>
+            <div class="card-title-fa">تولید ظروف گیاهی زیست‌تخریب‌پذیر</div>
+            <div class="card-title-en">Biodegradable Tableware</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید ظروف از نشاسته و ضایعات گیاهی.</div>
+            </div>
+        </a>
+
+        <!-- 5. Insect Farming -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Mealworms/" class="card">
+            <div class="emoji emoji-bug">🐛</div>
+            <div class="card-title-fa">مزارع پرورش حشرات مفید (میل‌ورم)</div>
+            <div class="card-title-en">Vertical Insect Farming</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید پروتئین نوین برای خوراک دام و آبزیان.</div>
+            </div>
+        </a>
+
+        <!-- 6. Bio-Fertilizers -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Bio-Stimulants/" class="card">
+            <div class="emoji emoji-recycle">♻️</div>
+            <div class="card-title-fa">تولید کودهای آلی و زیستی</div>
+            <div class="card-title-en">Bio-Fertilizers & Compost</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">بازیافت فضولات دامی به کود ارزشمند.</div>
+            </div>
+        </a>
+
+        <!-- 7. Smart Farming (IoT) -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/IoT" class="card">
+            <div class="emoji emoji-sat">📡</div>
+            <div class="card-title-fa">هوشمندسازی مزارع (IoT)</div>
+            <div class="card-title-en">Smart Farming Equipment</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید سنسور و تجهیزات کنترل اقلیم.</div>
+            </div>
+        </a>
+
+        <!-- 8. Accelerator -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/R&D" class="card">
+            <div class="emoji emoji-rocket">🚀</div>
+            <div class="card-title-fa">شتاب‌دهنده و مرکز R&D کشاورزی</div>
+            <div class="card-title-en">Agri-Tech Accelerator</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">حمایت از استارتاپ‌ها و ایده‌های نوین.</div>
+            </div>
+        </a>
+
+        <!-- 9. Mushrooms -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Mushroom" class="card">
+            <div class="emoji emoji-mushroom">🍄</div>
+            <div class="card-title-fa">کشت بافت و قارچ‌های دارویی</div>
+            <div class="card-title-en">Tissue Culture & Medicinal Mushrooms</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تکثیر نهال سالم و قارچ گانودرما.</div>
+            </div>
+        </a>
+
+        <!-- 10. Plant-Based Meat -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/TVP/" class="card">
+            <div class="emoji emoji-sprout">🌱</div>
+            <div class="card-title-fa">تولید پروتئین گیاهی (گوشت گیاهی)</div>
+            <div class="card-title-en">Plant-Based Meat Production</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">فرآوری حبوبات به جایگزین‌های گوشت.</div>
+            </div>
+        </a>
+
+        <!-- 11. Aquaculture (RAS) -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Aquaculture/" class="card">
+            <div class="emoji emoji-fish">🐟</div>
+            <div class="card-title-fa">پرورش متراکم آبزیان (RAS)</div>
+            <div class="card-title-en">Intensive Aquaculture - RAS</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید ماهی قزل‌آلا و خاویار در محیط بسته.</div>
+            </div>
+        </a>
+
+        <!-- 12. Hydroponic Fodder -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/SmartHydroponic/" class="card">
+            <div class="emoji emoji-sheaf">🌾</div>
+            <div class="card-title-fa">تولید علوفه هیدروپونیک و بسته‌بندی</div>
+            <div class="card-title-en">Hydroponic Fodder & Haylage</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تأمین علوفه تازه با مصرف آب ناچیز.</div>
+            </div>
+        </a>
+
+        <!-- 13. Almond Orchards -->
+        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/High-Density/" class="card">
+            <div class="emoji emoji-tree">🌳</div>
+            <div class="card-title-fa">باغات مدرن بادام دیرگل</div>
+            <div class="card-title-en">Modern Almond Orchards</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">احداث باغات مقاوم به سرما و مکانیزه.</div>
+            </div>
+        </a>
+
+        <!-- 14. Seedling Factory -->
+        <a href="#" class="card">
+            <div class="emoji emoji-seedling-factory">🌱</div>
+            <div class="card-title-fa">تولید مکانیزه نشاء (کارخانه نشاء)</div>
+            <div class="card-title-en">Industrial Seedling Nursery</div>
+            <div class="overlay">
+                <div class="nature-label">ماهیت پروژه</div>
+                <div class="nature-text">تولید انبوه نشاء گوجه و صیفی برای مزارع منطقه.</div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد اردبیل" class="footer-logo">
+        <div class="footer-content">
+            <div class="footer-main-text">منطقه آزاد تجاری-صنعتی اردبیل-بیله سوار</div>
+            <div class="footer-sub-text">مهندسین مشاور فجرتوسعه</div>
+            <div class="footer-date">پاییز 1404</div>
+        </div>
+    </footer>
+
+</body>
+</html>
