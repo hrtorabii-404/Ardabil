@@ -34,7 +34,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px; /* Reduced top padding for new header */
             color: var(--text-dark);
             overflow-x: hidden;
         }
@@ -71,11 +71,16 @@
 
         /* --- Header Styles --- */
         header {
-            text-align: center;
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
             animation: slideDownFade 1s ease-out;
+            padding: 10px 20px; /* Added padding for logos */
         }
 
         @keyframes slideDownFade {
@@ -83,11 +88,55 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Logo Containers for Shine Effect */
+        .logo-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden; /* Contains the shine */
+            border-radius: 10px;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-box img {
+            height: 90px; /* Same size as footer logo */
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* The Shine Effect */
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: none;
+        }
+
+        .logo-box:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-box:hover::after {
+            left: 150%;
+            transition: left 0.7s ease-in-out;
+        }
+
         .header-content {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            text-align: center;
+            flex-grow: 1; /* Takes up remaining space */
+            padding: 0 20px;
         }
 
         .title-wrapper {
@@ -446,7 +495,23 @@
         @keyframes textGlow { from { text-shadow: 0 0 2px rgba(0, 143, 57, 0.1); transform: scale(1); } to { text-shadow: 0 0 12px rgba(0, 143, 57, 0.4); transform: scale(1.02); } }
         @keyframes fadeInText { from { opacity: 0; } to { opacity: 0.9; } }
 
-        @media (max-width: 768px) {
+        /* Responsive Header for Mobile */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .header-content {
+                order: 2;
+                padding: 0;
+            }
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .logo-box {
+                margin: 0 10px;
+            }
             h1 { font-size: 1.8rem; }
             .grid-container { grid-template-columns: 1fr; }
             .card { height: 320px; }
@@ -461,6 +526,12 @@
     <div class="bg-shape shape-2"></div>
 
     <header>
+        <!-- Right Logo (Free Zone) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد">
+        </div>
+
+        <!-- Center Content -->
         <div class="header-content">
             <div class="title-wrapper">
                 <span class="header-emoji emoji-bulb">💡</span>
@@ -468,12 +539,17 @@
             </div>
             <div class="subtitle">(Agri-Tech & Innovation Hub)</div>
         </div>
+
+        <!-- Left Logo (Consultant) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگو مشاور">
+        </div>
     </header>
 
     <div class="grid-container">
 
         <!-- 1. Hybrid Seed -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/HybridVegetable/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-dna">🧬</div>
             <div class="card-title-fa">تولید بذر هیبرید سبزی و صیفی</div>
             <div class="card-title-en">Hybrid Seed Production Center</div>
@@ -484,7 +560,7 @@
         </a>
 
         <!-- 2. Greenhouse -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Hydroponic/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-tomato">🍅</div>
             <div class="card-title-fa">مجتمع گلخانه‌ای هیدروپونیک (نسل ۴)</div>
             <div class="card-title-en">High-Tech Glass Greenhouse</div>
@@ -495,7 +571,7 @@
         </a>
 
         <!-- 3. Phyto-Refinery -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Phyto-Refinery/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-herb">🌿</div>
             <div class="card-title-fa">پالایشگاه گیاهان دارویی (مواد مؤثره)</div>
             <div class="card-title-en">Phyto-Refinery & API Extraction</div>
@@ -506,7 +582,7 @@
         </a>
 
         <!-- 4. Biodegradable Tableware -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Biodegradable/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-plate">🍽️</div>
             <div class="card-title-fa">تولید ظروف گیاهی زیست‌تخریب‌پذیر</div>
             <div class="card-title-en">Biodegradable Tableware</div>
@@ -517,7 +593,7 @@
         </a>
 
         <!-- 5. Insect Farming -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Mealworms/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-bug">🐛</div>
             <div class="card-title-fa">مزارع پرورش حشرات مفید (میل‌ورم)</div>
             <div class="card-title-en">Vertical Insect Farming</div>
@@ -528,7 +604,7 @@
         </a>
 
         <!-- 6. Bio-Fertilizers -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Bio-Stimulants/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-recycle">♻️</div>
             <div class="card-title-fa">تولید کودهای آلی و زیستی</div>
             <div class="card-title-en">Bio-Fertilizers & Compost</div>
@@ -539,7 +615,7 @@
         </a>
 
         <!-- 7. Smart Farming (IoT) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/IoT" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-sat">📡</div>
             <div class="card-title-fa">هوشمندسازی مزارع (IoT)</div>
             <div class="card-title-en">Smart Farming Equipment</div>
@@ -550,7 +626,7 @@
         </a>
 
         <!-- 8. Accelerator -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/R&D" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-rocket">🚀</div>
             <div class="card-title-fa">شتاب‌دهنده و مرکز R&D کشاورزی</div>
             <div class="card-title-en">Agri-Tech Accelerator</div>
@@ -561,7 +637,7 @@
         </a>
 
         <!-- 9. Mushrooms -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Mushroom" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-mushroom">🍄</div>
             <div class="card-title-fa">کشت بافت و قارچ‌های دارویی</div>
             <div class="card-title-en">Tissue Culture & Medicinal Mushrooms</div>
@@ -572,7 +648,7 @@
         </a>
 
         <!-- 10. Plant-Based Meat -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/TVP/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-sprout">🌱</div>
             <div class="card-title-fa">تولید پروتئین گیاهی (گوشت گیاهی)</div>
             <div class="card-title-en">Plant-Based Meat Production</div>
@@ -583,7 +659,7 @@
         </a>
 
         <!-- 11. Aquaculture (RAS) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/Aquaculture/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-fish">🐟</div>
             <div class="card-title-fa">پرورش متراکم آبزیان (RAS)</div>
             <div class="card-title-en">Intensive Aquaculture - RAS</div>
@@ -594,7 +670,7 @@
         </a>
 
         <!-- 12. Hydroponic Fodder -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/SmartHydroponic/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-sheaf">🌾</div>
             <div class="card-title-fa">تولید علوفه هیدروپونیک و بسته‌بندی</div>
             <div class="card-title-en">Hydroponic Fodder & Haylage</div>
@@ -605,7 +681,7 @@
         </a>
 
         <!-- 13. Almond Orchards -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Hub/High-Density/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-tree">🌳</div>
             <div class="card-title-fa">باغات مدرن بادام دیرگل</div>
             <div class="card-title-en">Modern Almond Orchards</div>
