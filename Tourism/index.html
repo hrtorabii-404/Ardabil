@@ -33,7 +33,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px;
             color: var(--text-dark);
             overflow-x: hidden;
         }
@@ -68,13 +68,18 @@
             100% { transform: translate(40px, 40px) rotate(10deg); }
         }
 
-        /* --- Header Styles --- */
+        /* --- New Flex Header Layout --- */
         header {
-            text-align: center;
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
             animation: slideDownFade 1s ease-out;
+            padding: 10px 20px;
         }
 
         @keyframes slideDownFade {
@@ -82,11 +87,55 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Logo Containers for Shine Effect */
+        .logo-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden; /* Contains the shine */
+            border-radius: 10px; /* Slight rounding for cleaner shine edges */
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-box img {
+            height: 90px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* The Shine Effect */
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: none; /* Reset for hover */
+        }
+
+        .logo-box:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-box:hover::after {
+            left: 150%;
+            transition: left 0.7s ease-in-out;
+        }
+
         .header-content {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            text-align: center;
+            flex-grow: 1; /* Takes up remaining space */
+            padding: 0 20px;
         }
 
         .title-wrapper {
@@ -390,7 +439,27 @@
         @keyframes textGlow { from { text-shadow: 0 0 2px rgba(0, 143, 57, 0.1); transform: scale(1); } to { text-shadow: 0 0 12px rgba(0, 143, 57, 0.4); transform: scale(1.02); } }
         @keyframes fadeInText { from { opacity: 0; } to { opacity: 0.9; } }
 
-        @media (max-width: 768px) {
+        /* Responsive Header for Mobile */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .header-content {
+                order: 2; /* Title in middle or bottom visually if needed, but in column it's just order */
+                padding: 0;
+            }
+            /* Visual order: Logo 1 (Top), Logo 2 (Top), Title (Bottom) OR Logo - Title - Logo (Stacked) */
+            /* Let's keep logos on top side-by-side for mobile? Or just stack everything */
+            
+            /* Better mobile layout: Logos side-by-side on top row, title below */
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .logo-box {
+                margin: 0 10px;
+            }
             h1 { font-size: 1.8rem; }
             .grid-container { grid-template-columns: 1fr; }
             .card { height: 320px; }
@@ -405,6 +474,12 @@
     <div class="bg-shape shape-2"></div>
 
     <header>
+        <!-- Right Logo (Free Zone) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد">
+        </div>
+
+        <!-- Center Content -->
         <div class="header-content">
             <div class="title-wrapper">
                 <span class="header-emoji emoji-wheat-header">🌾</span>
@@ -412,12 +487,17 @@
             </div>
             <div class="subtitle">(Agri-Tourism & Services Park)</div>
         </div>
+
+        <!-- Left Logo (Consultant) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگو مشاور">
+        </div>
     </header>
 
     <div class="grid-container">
 
         <!-- 1. Health Resort -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/Agri-Health/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-hospital">🏥</div>
             <div class="card-title-fa">مجتمع گردشگری سلامت و پاراکلینیک</div>
             <div class="card-title-en">Agri-Health Resort</div>
@@ -428,7 +508,7 @@
         </a>
 
         <!-- 2. Nomadic Village -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/Agri-Tourism/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-tent">⛺</div>
             <div class="card-title-fa">گردشگری مزرعه و دهکده عشایری</div>
             <div class="card-title-en">Nomadic Agri-Tourism Village</div>
@@ -439,7 +519,7 @@
         </a>
 
         <!-- 3. Eco-Hotel -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/Hotel" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-hotel">🏨</div>
             <div class="card-title-fa">هتل-باغ تجاری (Eco-Hotel)</div>
             <div class="card-title-en">Eco-Business Hotel</div>
@@ -450,7 +530,7 @@
         </a>
 
         <!-- 4. FinTech -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/Agricultural/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-money">💰</div>
             <div class="card-title-fa">مرکز مالی و فین‌تک کشاورزی</div>
             <div class="card-title-en">Agri-FinTech Center</div>
@@ -461,7 +541,7 @@
         </a>
 
         <!-- 5. Expo -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/Agri-Exp/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-tractor">🚜</div>
             <div class="card-title-fa">نمایشگاه دائمی کشاورزی</div>
             <div class="card-title-en">Permanent Agri-Expo</div>
@@ -472,7 +552,7 @@
         </a>
 
         <!-- 6. Auto Trade -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Tourism/PDIHub/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-car">🚘</div>
             <div class="card-title-fa">مرکز تجارت خودرو و نمایشگاه</div>
             <div class="card-title-en">Automotive Trade Center</div>
