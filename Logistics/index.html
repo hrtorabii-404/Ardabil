@@ -30,7 +30,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px; /* Reduced padding for header space */
             color: var(--text-dark);
             overflow-x: hidden;
         }
@@ -67,11 +67,16 @@
 
         /* --- Header Styles --- */
         header {
-            text-align: center;
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
             animation: slideDownFade 1s ease-out;
+            padding: 10px 20px;
         }
 
         @keyframes slideDownFade {
@@ -79,11 +84,55 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Logo Containers for Shine Effect */
+        .logo-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden; /* Contains the shine */
+            border-radius: 10px;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-box img {
+            height: 90px; /* Same size as footer logo */
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* The Shine Effect */
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: none;
+        }
+
+        .logo-box:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-box:hover::after {
+            left: 150%;
+            transition: left 0.7s ease-in-out;
+        }
+
         .header-content {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            text-align: center;
+            flex-grow: 1; /* Takes up remaining space */
+            padding: 0 20px;
         }
 
         .title-wrapper {
@@ -446,15 +495,28 @@
         }
 
         /* Mobile Tweaks */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .header-content {
+                order: 2;
+                padding: 0;
+            }
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .logo-box {
+                margin: 0 10px;
+            }
             h1 { font-size: 1.8rem; }
-            .title-wrapper { gap: 8px; }
-            .header-emoji { font-size: 2rem; }
             .grid-container { grid-template-columns: 1fr; }
             .card { height: 280px; }
             .footer-main-text { font-size: 1.1rem; }
             .footer-sub-text { font-size: 0.95rem; }
-            .card:hover .emoji { top: 10px; } /* Adjust popup position for mobile */
+            .card:hover .emoji { top: 10px; }
         }
 
     </style>
@@ -466,6 +528,12 @@
     <div class="bg-shape shape-2"></div>
 
     <header>
+        <!-- Right Logo (Free Zone) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد">
+        </div>
+
+        <!-- Center Content -->
         <div class="header-content">
             <div class="title-wrapper">
                 <span class="header-emoji emoji-truck">🚛</span>
@@ -473,13 +541,18 @@
             </div>
             <div class="subtitle">(Logistics Park & Trade Gateway)</div>
         </div>
+
+        <!-- Left Logo (Consultant) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگو مشاور">
+        </div>
     </header>
 
     <div class="grid-container">
 
         <!-- Item 1: Box (Tada/Shake) -->
         <!-- Link Placeholder: Replace # with your URL -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/AutomatedWarehouse/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-box">📦</div>
             <div class="card-title-fa">مرکز لجستیک و انبار مکانیزه هوشمند</div>
             <div class="card-title-en">Smart Logistics Center & Dry Port</div>
@@ -491,7 +564,7 @@
         </a>
 
         <!-- Item 2: Ice (Spin) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/MeatCold/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-ice">❄️</div>
             <div class="card-title-fa">سردخانه تخصصی گوشت و زنجیره پروتئین</div>
             <div class="card-title-en">Meat Cold Storage & Protein Hub</div>
@@ -503,7 +576,7 @@
         </a>
 
         <!-- Item 3: Tag (Swing) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/Labeling" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-tag">🏷️</div>
             <div class="card-title-fa">مرکز بسته‌بندی مجدد و لیبل‌گذاری</div>
             <div class="card-title-en">Re-Packaging & Labeling Center</div>
@@ -515,7 +588,7 @@
         </a>
 
         <!-- Item 4: Sheep (Bounce) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/Livestock" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-sheep">🐏</div>
             <div class="card-title-fa">پایانه صادرات دام زنده و قرنطینه</div>
             <div class="card-title-en">Live Livestock Export Terminal</div>
@@ -527,7 +600,7 @@
         </a>
 
         <!-- Item 5: Fuel (Pulse/Heartbeat) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/TIRPark" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-fuel">⛽</div>
             <div class="card-title-fa">مجتمع رفاهی، تیرپارک و جایگاه سوخت</div>
             <div class="card-title-en">TIR Park & Fueling Station</div>
@@ -539,7 +612,7 @@
         </a>
 
         <!-- Item 6: Wheat (Sway/Wave) -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/Logistics/Silo" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-wheat">🌾</div>
             <div class="card-title-fa">سیلوی مکانیزه ذخیره غلات</div>
             <div class="card-title-en">Automated Grain Silo Terminal</div>
