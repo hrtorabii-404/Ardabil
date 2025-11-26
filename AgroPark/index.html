@@ -33,7 +33,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px; /* Reduced top padding for new header */
             color: var(--text-dark);
             overflow-x: hidden;
         }
@@ -70,11 +70,16 @@
 
         /* --- Header Styles --- */
         header {
-            text-align: center;
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
             animation: slideDownFade 1s ease-out;
+            padding: 10px 20px; /* Added padding for logos */
         }
 
         @keyframes slideDownFade {
@@ -82,11 +87,55 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Logo Containers for Shine Effect */
+        .logo-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden; /* Contains the shine */
+            border-radius: 10px;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-box img {
+            height: 90px; /* Same size as footer logo */
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* The Shine Effect */
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: none;
+        }
+
+        .logo-box:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-box:hover::after {
+            left: 150%;
+            transition: left 0.7s ease-in-out;
+        }
+
         .header-content {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            text-align: center;
+            flex-grow: 1; /* Takes up remaining space */
+            padding: 0 20px;
         }
 
         .title-wrapper {
@@ -463,7 +512,23 @@
         @keyframes textGlow { from { text-shadow: 0 0 2px rgba(0, 143, 57, 0.1); transform: scale(1); } to { text-shadow: 0 0 12px rgba(0, 143, 57, 0.4); transform: scale(1.02); } }
         @keyframes fadeInText { from { opacity: 0; } to { opacity: 0.9; } }
 
-        @media (max-width: 768px) {
+        /* Responsive Header for Mobile */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .header-content {
+                order: 2;
+                padding: 0;
+            }
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .logo-box {
+                margin: 0 10px;
+            }
             h1 { font-size: 1.8rem; }
             .grid-container { grid-template-columns: 1fr; }
             .card { height: 300px; }
@@ -478,6 +543,12 @@
     <div class="bg-shape shape-2"></div>
 
     <header>
+        <!-- Right Logo (Free Zone) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/1be219_25Alogo.png" alt="لوگو منطقه آزاد">
+        </div>
+
+        <!-- Center Content -->
         <div class="header-content">
             <div class="title-wrapper">
                 <span class="header-emoji emoji-factory">🏭</span>
@@ -485,12 +556,17 @@
             </div>
             <div class="subtitle">(Agro-Industrial Processing Park)</div>
         </div>
+
+        <!-- Left Logo (Consultant) -->
+        <div class="logo-box">
+            <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگو مشاور">
+        </div>
     </header>
 
     <div class="grid-container">
 
         <!-- 1. French Fries -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Potato/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-fries">🍟</div>
             <div class="card-title-fa">کارخانه فرآوری سیب‌زمینی (فرنچ‌فرایز)</div>
             <div class="card-title-en">French Fries & Starch Plant</div>
@@ -501,7 +577,7 @@
         </a>
 
         <!-- 2. Slaughterhouse -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Slaughterhouse/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-meat">🥩</div>
             <div class="card-title-fa">کشتارگاه صنعتی و بسته‌بندی گوشت</div>
             <div class="card-title-en">Industrial Slaughterhouse</div>
@@ -512,7 +588,7 @@
         </a>
 
         <!-- 3. Oilseed -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Oilseed" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-sun">🌻</div>
             <div class="card-title-fa">کارخانه روغن‌کشی و تصفیه روغن</div>
             <div class="card-title-en">Oilseed Extraction & Refinery</div>
@@ -523,7 +599,7 @@
         </a>
 
         <!-- 4. Cotton -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/CottonGinning" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-yarn">🧶</div>
             <div class="card-title-fa">کارخانه پنبه پاک‌کنی و الیاف</div>
             <div class="card-title-en">Cotton Ginning Plant</div>
@@ -545,7 +621,7 @@
         </a>
 
         <!-- 6. Dairy -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Milk/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-milk">🥛</div>
             <div class="card-title-fa">کارخانه لبنیات صادراتی (شیرخشک/کره)</div>
             <div class="card-title-en">Dairy Powder & Butter Plant</div>
@@ -556,7 +632,7 @@
         </a>
 
         <!-- 7. Animal Feed -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/AnimalFeed" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-chicken">🐓</div>
             <div class="card-title-fa">تولید خوراک دام و طیور (پلت)</div>
             <div class="card-title-en">Animal Feed & Pellet Mill</div>
@@ -567,7 +643,7 @@
         </a>
 
         <!-- 8. Peanut -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Peanut" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-peanut">🥜</div>
             <div class="card-title-fa">فرآوری و کره بادام زمینی</div>
             <div class="card-title-en">Peanut Processing & Butter</div>
@@ -578,7 +654,7 @@
         </a>
 
         <!-- 9. Beverages -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Probiotic/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-drink">🍹</div>
             <div class="card-title-fa">نوشیدنی‌های سلامت‌محور و گیاهی</div>
             <div class="card-title-en">Functional Herbal Beverages</div>
@@ -589,7 +665,7 @@
         </a>
 
         <!-- 10. Meat Processing -->
-        <a href="https://hrtorabii-404.github.io/Ardabil/AgroPark/Nuggets/" class="card">
+        <a href="#" class="card">
             <div class="emoji emoji-hotdog">🌭</div>
             <div class="card-title-fa">فرآورده‌های گوشتی (سوسیس/ناگت)</div>
             <div class="card-title-en">Meat Processing Plant</div>
