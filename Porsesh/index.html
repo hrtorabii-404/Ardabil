@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرسشنامه طرح جامع منطقه آزاد تجاری-صنعتی اردبیل-بیله‌سوار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* رنگ‌بندی جدید سبز برای منطقه آزاد */
+            --primary-color: #10b981; /* Emerald 500 */
+            --primary-color-dark: #059669; /* Emerald 600 */
+            --primary-color-light: #d1fae5; /* Emerald 100 */
+            --text-color: #1f2937;
+            --text-color-light: #6b7280;
+            --bg-color: #ecfdf5; /* Emerald 50 */
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 100% 0, rgba(16, 185, 129, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 0% 100%, rgba(52, 211, 153, 0.15) 0%, transparent 30%);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateY(20px);
+        }
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .question-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem; /* 24px */
+            padding: 2rem; /* 32px */
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .choice-card {
+            padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 0.75rem;
+            cursor: pointer; transition: all 0.2s ease-in-out; background-color: white; text-align: center;
+            position: relative; 
+            display: flex; align-items: center; justify-content: start;
+        }
+        .choice-card:hover {
+            border-color: var(--primary-color); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+        .choice-card.selected {
+            border-color: var(--primary-color); background-color: var(--primary-color-light); 
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+        /* Checkmark icon for selected items */
+        .choice-card.selected::before {
+            content: '✔';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            color: var(--primary-color-dark);
+            font-weight: bold;
+            font-size: 1rem;
+            width: 20px; height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .visually-hidden {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+        }
+        #progress-container { width: 100%; background-color: #d1d5db; border-radius: 9999px; overflow: hidden; height: 8px; }
+        #progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #34d399, var(--primary-color)); border-radius: 9999px; transition: width 0.5s ease-in-out; }
+        
+        /* Tooltip Styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 8px;
+            cursor: help;
+        }
+        .tooltip-icon {
+            width: 24px; height: 24px; color: #10b981; transition: color 0.2s;
+            background: #d1fae5; border-radius: 50%; padding: 2px;
+        }
+        .tooltip-container:hover .tooltip-icon { color: #047857; background: #a7f3d0; }
+        .tooltip-text {
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            width: max-content;
+            max-width: 280px;
+            text-align: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 20;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #1f2937 transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            bottom: 125%;
+        }
+
+        .priority-rank-badge {
+            position: absolute; top: -10px; right: -10px; background: linear-gradient(135deg, #10b981, #059669); color: white;
+            width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-weight: bold; font-size: 14px;
+            border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes pop-in { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        .validation-error { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; min-height: 1.25rem; font-weight: 500;}
+        .logo-hover {
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        .logo-hover:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 15px rgba(16, 185, 129, 0.2));
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(to right, #059669, #10b981);
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(to right, #047857, #059669);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Number Badge Style */
+        .q-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem; /* 32px */
+            height: 2rem;
+            background-color: #d1fae5; /* Emerald 100 */
+            color: #047857; /* Emerald 700 */
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-left: 0.75rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto max-w-5xl p-4 sm:p-6 min-h-screen flex flex-col justify-center">
+        <div id="form-wrapper">
+             <!-- Welcome Page -->
+            <div id="welcome-page" class="page text-center active">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 border border-green-100">
+                    <div class="flex justify-center items-center gap-8 sm:gap-16 mb-8">
+                        <img src="https://uploadkon.ir/uploads/5a1c08_25Gemini-Generated-Image-42fhsr42fhsr42fh-copy.png" alt="لوگوی منطقه آزاد اردبیل-بیله‌سوار" class="h-24 sm:h-32 w-auto logo-hover object-contain">
+                        <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگوی مهندسین مشاور فجرتوسعه" class="h-20 sm:h-24 w-auto logo-hover object-contain">
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500">
+                        پرسشنامه سنجش دیدگاه ذینفعان
+                    </h1>
+                    <p class="text-xl font-semibold text-gray-700 mb-6">طرح جامع منطقه آزاد تجاری-صنعتی اردبیل-بیله‌سوار</p>
+                    <p class="text-gray-600 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+                        مشارکت شما در این نظرسنجی، به ما در تدوین برنامه‌ای دقیق‌تر و توسعه‌ای پایدار برای منطقه کمک شایانی خواهد کرد.
+                    </p>
+
+                    <!-- Info Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-right mb-10 max-w-3xl mx-auto">
+                        <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-200 flex flex-col items-center text-center sm:text-right sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-4 sm:space-x-reverse hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-base mb-1">هدف پرسشنامه</h3>
+                                <p class="text-sm text-gray-600 leading-snug">درک دیدگاه‌ها و انتظارات کلیه ذینفعان طرح.</p>
+                            </div>
+                        </div>
+                        <div class="bg-teal-50 p-5 rounded-2xl border border-teal-200 flex flex-col items-center text-center sm:text-right sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-4 sm:space-x-reverse hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-teal-500 text-white rounded-xl flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-base mb-1">زمان تقریبی</h3>
+                                <p class="text-sm text-gray-600 leading-snug">پاسخ به سوالات حدود ۱۰ دقیقه زمان خواهد برد.</p>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-5 rounded-2xl border border-green-200 flex flex-col items-center text-center sm:text-right sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-4 sm:space-x-reverse hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-base mb-1">محرمانگی</h3>
+                                <p class="text-sm text-gray-600 leading-snug">اطلاعات شما محرمانه و صرفاً برای اهداف تحلیلی است.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="startBtn" class="w-full max-w-xs mx-auto btn-gradient text-white font-bold py-3 px-8 rounded-full focus:outline-none focus:ring-4 focus:ring-emerald-300 transition-all transform hover:scale-105 duration-300 text-lg shadow-lg">
+                        شروع پرسشنامه
+                    </button>
+                    
+                    <div class="mt-10 text-sm text-gray-500">
+                        <span class="relative inline-block group cursor-pointer font-semibold text-gray-600 hover:text-emerald-700 transition-colors">
+                           تهیه شده در شرکت مهندسین مشاور فجرتوسعه
+                            <div class="absolute bottom-full left-1/2 z-10 w-max max-w-xs px-4 py-3 mb-2 text-xs leading-relaxed text-white transition-all duration-300 -translate-x-1/2 bg-gray-800 rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible shadow-xl transform group-hover:-translate-y-1">
+                                <p class="font-bold mb-1 text-emerald-300">هرگونه سوال درخصوص پرسشنامه:</p>
+                                <p>حمیدرضا ترابی</p>
+                                <p class="font-mono mt-1 text-gray-300">hr.torabii@gmail.com</p>
+                                <!-- Arrow -->
+                                <div class="absolute top-full left-1/2 -ml-2 border-4 border-t-gray-800 border-x-transparent border-b-transparent"></div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden" id="form-container">
+                 <div id="form-header" class="flex justify-between items-center mb-4 px-2">
+                    <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگوی مشاور" class="h-8 sm:h-10 w-auto opacity-80">
+                    <div class="text-center">
+                         <h1 class="text-base sm:text-lg font-bold text-gray-800">طرح جامع منطقه آزاد اردبیل-بیله‌سوار</h1>
+                         <p id="section-title" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                    <img src="https://uploadkon.ir/uploads/5a1c08_25Gemini-Generated-Image-42fhsr42fhsr42fh-copy.png" alt="لوگوی منطقه آزاد" class="h-10 sm:h-14 w-auto">
+                </div>
+                <div class="mb-6 px-2">
+                    <div id="progress-container"><div id="progress-bar"></div></div>
+                    <p id="progress-text" class="text-center text-xs text-gray-500 mt-2 font-medium"></p>
+                </div>
+                
+                <form id="stakeholderForm" action="https://formspree.io/f/mrbnkoeg" method="POST">
+                </form>
+                
+                <div id="navigation-controls" class="mt-8 flex justify-between items-center px-4">
+                    <button type="button" id="prevBtn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-full hover:bg-gray-300 transition-colors text-sm">قبلی</button>
+                    <button type="button" id="nextBtn" class="btn-gradient text-white font-bold py-2 px-6 rounded-full hover:shadow-lg transition-shadow text-sm">بعدی</button>
+                </div>
+            </div>
+            
+            <div id="final-page" class="hidden page text-center p-10 bg-white rounded-3xl shadow-2xl border border-green-100">
+                 <div class="flex justify-center items-center gap-16 mb-8">
+                     <img src="https://uploadkon.ir/uploads/5a1c08_25Gemini-Generated-Image-42fhsr42fhsr42fh-copy.png" alt="لوگوی منطقه آزاد" class="h-24 w-auto object-contain">
+                     <img src="https://uploadkon.ir/uploads/a2fe19_25logoFJ.png" alt="لوگوی مشاور" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">از مشارکت شما سپاسگزاریم!</h2>
+                <p class="text-gray-600 mb-8 text-lg">نظرات شما نقش مهمی در آینده منطقه ایفا خواهد کرد.</p>
+                <p class="text-gray-400 mb-8 text-lg">حتما دکمه ارسال نهایی را بفشارید.</p>
+                <button type="submit" form="stakeholderForm" class="w-full max-w-xs mx-auto btn-gradient text-white font-bold py-4 px-10 rounded-full hover:shadow-xl transition transform hover:scale-105 duration-300 text-lg shadow-lg">ارسال نهایی</button>
+                <div class="mt-10 text-sm text-gray-500">
+                    <span class="font-semibold text-gray-600">
+                       مهندسین مشاور فجرتوسعه
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
+            <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5"><svg class="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            <h3 class="text-2xl font-bold text-gray-800">با تشکر!</h3>
+            <p class="text-gray-600 mt-2 mb-6">پاسخ شما با موفقیت ثبت شد.</p>
+            <div class="space-y-3">
+                 <button id="restartBtn" class="w-full max-w-xs mx-auto bg-emerald-600 text-white font-bold py-2 px-6 rounded-full hover:bg-emerald-700 transition-colors">بازگشت به صفحه نخست</button>
+                 <button id="closeBtn" class="w-full max-w-xs mx-auto bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-full hover:bg-gray-300 transition-colors">بستن صفحه</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            // Demographics
+            { section: "اطلاعات عمومی", id: 'q_gender', number: '', text: 'جنسیت:', type: 'radio', options: ['مرد', 'زن'], guide: '' },
+            { section: "اطلاعات عمومی", id: 'q_age', number: '', text: 'رده سنی:', type: 'radio', options: ['زیر ۳۰ سال', '۳۰ تا ۴۰ سال', '۴۱ تا ۵۰ سال', 'بالای ۵۰ سال'], guide: '' },
+            { section: "اطلاعات عمومی", id: 'q_education', number: '', text: 'سطح تحصیلات:', type: 'radio', options: ['زیر دیپلم', 'دیپلم یا فوق دیپلم', 'کارشناسی', 'کارشناسی ارشد و بالاتر'], guide: '' },
+            
+            // Main Questions
+            { 
+                section: "بخش اول: جایگاه و شناخت", 
+                id: 'q1_position', 
+                number: '۱', 
+                text: 'جایگاه اصلی شما کدام است؟', 
+                type: 'radio', 
+                guide: 'لطفاً فقط یک گزینه انتخاب کنید تا بدانیم نظر شما را با چه وزنی در تحلیل بگذاریم.',
+                options: [
+                    'مالک زمین، کشاورز یا باغدار داخل محدوده یا حریم منطقه آزاد',
+                    'ساکن محلی شهر بیله‌سوار یا روستاهای اطراف (غیرمالک زمین داخل محدوده)',
+                    'فعال اقتصادی، سرمایه‌گذار یا تاجر',
+                    'مدیر یا کارشناس دستگاه‌های اجرایی، دولتی یا حاکمیتی',
+                    'متخصص، استاد دانشگاه، مهندس مشاور یا پژوهشگر',
+                    'نماینده نهادهای نظامی، مرزبانی یا امنیتی'
+                ]
+            },
+            { 
+                section: "بخش اول: جایگاه و شناخت", 
+                id: 'q2_familiarity', 
+                number: '۲', 
+                text: 'میزان آشنایی شما با محدوده مصوب و قانون مناطق آزاد چقدر است؟', 
+                type: 'radio', 
+                guide: 'این سوال فقط برای دسته‌بندی سطح اطلاعات پاسخ‌دهندگان است و تأثیری در نتیجه ندارد.',
+                options: ['کامل', 'متوسط', 'کم'] 
+            },
+            { 
+                section: "بخش دوم: توسعه و کاربری اراضی", 
+                id: 'q3_dev_priority', 
+                number: '۳', 
+                text: 'با توجه به محدودیت منابع (به‌ویژه آب و زمین مرغوب کشاورزی)، اولویت اصلی توسعه منطقه آزاد بیله‌سوار باید کدام باشد؟', 
+                type: 'radio', 
+                guide: 'لطفاً فقط یک گزینه انتخاب کنید؛ این سوال تعیین می‌کند منطقه آزاد در آینده بیشتر به چه چیزی معروف باشد.',
+                options: [
+                    'لجستیک و ترانزیت بین‌المللی (بندر خشک، تیرپارک، انبارداری)',
+                    'کشاورزی پیشرفته و صنایع تبدیلی غذایی (سورتینگ، بسته‌بندی، سردخانه صادراتی)',
+                    'تجارت و بازرگانی مرزی',
+                    'گردشگری سلامت و خرید منطقه‌ای',
+                    'صنایع تولیدی و صنعتی (سبک یا سنگین)'
+                ]
+            },
+            { 
+                section: "بخش دوم: توسعه و کاربری اراضی", 
+                id: 'q4_agri_approach', 
+                number: '۴', 
+                text: 'رویکرد طرح جامع نسبت به «اراضی کشاورزی مرغوب» واقع در محدوده منطقه آزاد باید چگونه باشد؟', 
+                type: 'radio', 
+                guide: 'این سوال مشخص می‌کند که در نقشه نهایی طرح جامع، زمین‌های کشاورزی شما چه سرنوشتی پیدا کنند.',
+                options: [
+                    'حفظ کامل کاربری کشاورزی و خارج کردن این اراضی از محدوده منطقه آزاد',
+                    'حفظ کاربری کشاورزی + اجازه احداث تأسیسات لجستیکی و سردخانه‌ای کم‌حجم',
+                    'تغییر کاربری محدود فقط برای زیرساخت‌های ضروری (جاده، گمرک، بندر خشک)',
+                    'تغییر کاربری گسترده برای استقرار صنایع و شهرک‌های صنعتی',
+                    'هرگونه تغییر کاربری منوط به جبران کامل برای کشاورزان باشد'
+                ]
+            },
+            { 
+                section: "بخش دوم: توسعه و کاربری اراضی", 
+                id: 'q5_acquisition', 
+                number: '۵', 
+                text: 'در صورت لزوم تملک اراضی کشاورزی، کدام روش را عادلانه‌تر و قابل‌قبول‌تر می‌دانید؟', 
+                type: 'checkbox', 
+                limit: 2, 
+                guide: 'حداکثر دو گزینه انتخاب کنید؛ پاسخ شما مستقیماً مدل حقوقی تملک زمین در طرح جامع را تعیین می‌کند.',
+                options: [
+                    'خرید نقدی با قیمت کارشناسی روز + پاداش جابه‌جایی',
+                    'معاوضه زمین با اراضی معادل در خارج از محدوده منطقه آزاد',
+                    'اجاره بلندمدت (۵۰–۹۹ ساله) با پرداخت اجاره‌بهای سالیانه',
+                    'واگذاری سهام منطقه آزاد به مالکان به نسبت ارزش زمین',
+                    'هیچ‌کدام؛ تملک نباید انجام شود'
+                ]
+            },
+            { 
+                section: "بخش سوم: راهبردها و زیرساخت", 
+                id: 'q6_infra_rank', 
+                number: '۶', 
+                text: 'سه اولویت زیرساختی زیر را به ترتیب اهمیت رتبه‌بندی کنید (۱ = مهم‌ترین)', 
+                type: 'priority-ranking', 
+                guide: 'این سوال به مشاور می‌گوید بودجه محدود سال‌های اول دقیقاً صرف چه پروژه‌هایی شود.',
+                options: [
+                    'تعیین تکلیف مالکیت اراضی و حل معارضین ملکی',
+                    'تأمین پایدار آب و برق صنعتی',
+                    'بهسازی و چهاربانده کردن محور اردبیل–بیله‌سوار–مرز',
+                    'احداث بندر خشک و تیرپارک بزرگ',
+                    'اتصال ریلی منطقه به شبکه سراسری',
+                    'استقرار گمرک ۲۴ ساعته و هوشمند در پایانه مرزی'
+                ]
+            },
+            { 
+                section: "بخش سوم: راهبردها و زیرساخت", 
+                id: 'q7_strategy', 
+                number: '۷', 
+                text: 'با توجه به نوسانات روابط با جمهوری آذربایجان و محدودیت تردد مسافر و احتمال تأخیر در افتتاح کریدور زنگزور، راهبرد مناسب منطقه آزاد چیست؟', 
+                type: 'radio', 
+                guide: 'پاسخ شما مشخص می‌کند که طرح جامع روی کدام بازار و مسیر ترانزیتی حساب باز کند.',
+                options: [
+                    'تمرکز کامل بر بازار روسیه و قزاقستان از طریق مسیر آستارا–روسیه',
+                    'تمرکز بر بازار جمهوری آذربایجان با فرض بهبود روابط در ۳–۵ سال آینده',
+                    'توسعه مستقل از مرز زمینی (تمرکز بر فرودگاه پارس‌آباد و حمل هوایی)',
+                    'تنوع‌بخشی به بازارها (روسیه + آذربایجان + ترکیه + قزاقستان)'
+                ]
+            },
+            { 
+                section: "بخش چهارم: چالش‌ها و پیشنهادات", 
+                id: 'q8_bottleneck', 
+                number: '۸', 
+                text: 'مهم‌ترین گلوگاه دسترسی فعلی که مانع رشد منطقه است کدام است؟', 
+                type: 'radio', 
+                guide: 'این سوال اولویت پروژه‌های جاده‌ای و ریلی طرح جامع را مشخص می‌کند.',
+                options: [
+                    'ضعف محور جاده‌ای اردبیل–بیله‌سوار (پیچ‌های خطرناک و تک‌بانده بودن)',
+                    'نبود ارتباط ریلی',
+                    'کمبود امکانات اقامتی و رفاهی در منطقه',
+                    'ظرفیت پایین پایانه مرزی بیله‌سوار برای کامیون‌ها'
+                ]
+            },
+            { 
+                section: "بخش چهارم: چالش‌ها و پیشنهادات", 
+                id: 'q9_concern', 
+                number: '۹', 
+                text: 'مهم‌ترین نگرانی شما از ایجاد منطقه آزاد چیست؟', 
+                type: 'checkbox', 
+                limit: 2, 
+                guide: 'حداکثر دو گزینه؛ این پاسخ‌ها مستقیماً وارد پیوست اجتماعی و فرهنگی طرح جامع می‌شوند.',
+                options: [
+                    'از بین رفتن زمین‌های کشاورزی مرغوب و امنیت غذایی منطقه',
+                    'افزایش قیمت زمین و مسکن و مهاجرت معکوس بومیان',
+                    'عدم اشتغال‌زایی برای جوانان محلی و ورود نیروی کار غیربومی',
+                    'آلودگی زیست‌محیطی و مصرف بی‌رویه منابع آب',
+                    'طولانی شدن فرآیند اجرا و تبدیل شدن به پروژه نیمه‌تمام'
+                ]
+            },
+            { 
+                section: "بخش چهارم: چالش‌ها و پیشنهادات", 
+                id: 'q10_local_benefit', 
+                number: '۱۰', 
+                text: 'مؤثرترین راهکار برای بهره‌مندی جامعه محلی از منافع منطقه آزاد کدام است؟', 
+                type: 'checkbox', 
+                limit: 2, 
+                guide: 'حداکثر دو گزینه؛ پاسخ شما تعیین می‌کند چه مکانیزم‌هایی برای حمایت از مردم محلی در طرح جامع پیش‌بینی شود.',
+                options: [
+                    'الزام قانونی به استخدام حداقل ۷۰٪ نیروی بومی',
+                    'ایجاد صندوق توسعه محلی با درصدی از درآمد گمرکی منطقه',
+                    'واگذاری بازارچه‌های مرزی و غرفه‌ها به تعاونی‌های محلی',
+                    'آموزش رایگان فنی–حرفه‌ای برای ۵۰۰۰ جوان بومی در ۳ سال اول',
+                    'مشارکت مالکان اراضی در سود پروژه‌ها از طریق سهام‌داری'
+                ]
+            },
+            { 
+                section: "بخش چهارم: چالش‌ها و پیشنهادات", 
+                id: 'q11_suggestions', 
+                number: '۱۱', 
+                text: 'اگر پیشنهاد یا راهکار خاصی برای موفقیت طرح جامع دارید که در سوالات بالا نیامده، لطفاً بیان فرمایید', 
+                type: 'textarea',
+                guide: 'هر ایده‌ای که اینجا بنویسید، به‌صورت جداگانه در گزارش نهایی بررسی و در صورت امکان وارد طرح جامع خواهد شد.'
+            }
+        ];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const appState = { currentPageIndex: -1, pages: [], isSubmitting: false };
+            const ui = {
+                form: document.getElementById('stakeholderForm'),
+                formContainer: document.getElementById('form-container'),
+                welcomePage: document.getElementById('welcome-page'),
+                startBtn: document.getElementById('startBtn'),
+                prevBtn: document.getElementById('prevBtn'),
+                nextBtn: document.getElementById('nextBtn'),
+                finalPage: document.getElementById('final-page'),
+                progressText: document.getElementById('progress-text'),
+                progressBar: document.getElementById('progress-bar'),
+                successModal: document.getElementById('successModal'),
+                restartBtn: document.getElementById('restartBtn'),
+                closeBtn: document.getElementById('closeBtn'),
+                sectionTitle: document.getElementById('section-title'),
+            };
+
+            const buildForm = () => {
+                allQuestions.forEach(q => {
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'page';
+
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'question-card';
+                    
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'flex items-start mb-6';
+
+                    // Number Badge
+                    let numberBadge = '';
+                    if (q.number) {
+                        numberBadge = `<span class="q-number">${q.number}</span>`;
+                    }
+                    
+                    // Guide Tooltip Icon
+                    let guideHTML = '';
+                    if (q.guide) {
+                        guideHTML = `
+                            <div class="tooltip-container mr-2 mt-1">
+                                <svg class="tooltip-icon cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                </svg>
+                                <div class="tooltip-text">${q.guide}</div>
+                            </div>
+                        `;
+                    }
+
+                    headerDiv.innerHTML = `
+                        ${numberBadge}
+                        <h3 class="text-gray-800 font-bold text-lg leading-relaxed flex-grow pt-1 pr-3">
+                            ${q.text}
+                            <span class="inline-block align-middle">${guideHTML}</span>
+                        </h3>
+                    `;
+                    
+                    qDiv.appendChild(headerDiv);
+                    qDiv.appendChild(createInputElement(q));
+
+                    pageDiv.appendChild(qDiv);
+                    ui.form.appendChild(pageDiv);
+                    appState.pages.push(pageDiv);
+                });
+            };
+
+            const createInputElement = (q) => {
+                const wrapper = document.createElement('div');
+                const container = document.createElement('div');
+                switch (q.type) {
+                    case 'textarea': container.innerHTML = `<textarea id="${q.id}" name="${q.id}" rows="5" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm p-4 focus:ring-emerald-500 focus:border-emerald-500 bg-white" placeholder="پاسخ خود را اینجا بنویسید..."></textarea>`; break;
+                    case 'multi-textarea':
+                        container.className = 'space-y-3 mt-4';
+                        for (let i = 1; i <= 3; i++) {
+                            container.innerHTML += `<div class="flex items-center gap-2"><span class="font-semibold text-gray-600">${i}.</span><textarea name="${q.id}_${i}" rows="2" class="flex-grow block w-full rounded-lg border-gray-300 shadow-sm p-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="مورد ${i}"></textarea></div>`;
+                        }
+                        break;
+                    case 'radio': case 'checkbox':
+                        container.className = 'grid grid-cols-1 gap-3';
+                        q.options.forEach(opt => {
+                            container.innerHTML += `<label class="choice-card text-right"><input type="${q.type}" name="${q.id}" value="${opt}" class="visually-hidden"><span class="font-medium text-gray-800 leading-relaxed">${opt}</span></label>`;
+                        });
+                        if (q.other) container.innerHTML += `<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border"><label class="font-medium"><input type="radio" name="${q.id}" value="سایر" class="ml-2"> سایر:</label><input type="text" name="${q.id}_other" class="flex-grow rounded-md border-gray-300 shadow-sm p-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="لطفاً مشخص کنید"></div>`;
+                        break;
+                    case 'scale':
+                         container.innerHTML = `<div class="flex justify-between items-center text-sm text-gray-500 px-1 mt-4"><span>${q.labels[0]}</span><span>${q.labels[1]}</span></div><div class="grid grid-cols-5 gap-2 p-2 bg-gray-100/50 rounded-xl mt-2">${[1,2,3,4,5].map(v => `<label class="choice-card p-3 justify-center"><input type="radio" name="${q.id}" value="${v}" class="visually-hidden"> <span class="text-lg font-bold">${v}</span></label>`).join('')}</div>`;
+                         break;
+                    case 'priority-ranking':
+                        container.className = 'grid grid-cols-1 gap-3';
+                        q.options.forEach((opt) => {
+                            container.innerHTML += `<div class="choice-card priority-option text-right" data-question-id="${q.id}" data-value="${opt}"><span class="font-medium text-gray-800 leading-relaxed">${opt}</span></div>`;
+                        });
+                        container.innerHTML += `<input type="hidden" name="${q.id}_rank1" id="${q.id}_rank1"><input type="hidden" name="${q.id}_rank2" id="${q.id}_rank2"><input type="hidden" name="${q.id}_rank3" id="${q.id}_rank3">`;
+                        wrapper.innerHTML += `<div class="text-right mt-3"><button type="button" class="text-sm text-emerald-600 hover:underline font-bold" onclick="resetPriority('${q.id}')">انتخاب مجدد (پاک کردن)</button></div>`;
+                        break;
+                }
+                wrapper.prepend(container);
+                const errorDiv = document.createElement('div');
+                errorDiv.id = `${q.id}_error`;
+                errorDiv.className = 'validation-error text-center';
+                wrapper.appendChild(errorDiv);
+                return wrapper;
+            };
+
+            const setupEventListeners = () => {
+                ui.startBtn.addEventListener('click', () => { appState.currentPageIndex = 0; updateUI(); });
+                ui.nextBtn.addEventListener('click', () => { if (validateCurrentPage()) { if (appState.currentPageIndex < appState.pages.length - 1) { appState.currentPageIndex++; updateUI(); } else { appState.currentPageIndex = appState.pages.length; updateUI(); } } });
+                ui.prevBtn.addEventListener('click', () => { if (appState.currentPageIndex > 0) { appState.currentPageIndex--; updateUI(); } });
+                ui.form.addEventListener('submit', handleSubmit);
+                ui.restartBtn.addEventListener('click', () => location.reload());
+                ui.closeBtn.addEventListener('click', () => window.close());
+                
+                ui.form.addEventListener('change', e => {
+                    const target = e.target;
+                    if (target.matches('input[type="radio"].visually-hidden')) {
+                        document.querySelectorAll(`input[name="${target.name}"]`).forEach(radio => radio.parentElement.classList.remove('selected'));
+                        target.parentElement.classList.add('selected');
+                    } else if (target.matches('input[type="checkbox"].visually-hidden')) {
+                        const limit = allQuestions.find(q => q.id === target.name)?.limit;
+                        if (limit) {
+                            const checkedBoxes = document.querySelectorAll(`input[name="${target.name}"]:checked`);
+                            if (checkedBoxes.length > limit) {
+                                target.checked = false; 
+                                alert(`شما فقط می‌توانید ${limit} گزینه را انتخاب کنید.`);
+                                return;
+                            }
+                        }
+                        target.parentElement.classList.toggle('selected', target.checked);
+                    }
+                });
+
+                ui.form.addEventListener('click', e => {
+                    const target = e.target.closest('.priority-option');
+                    if (!target) return;
+                    const questionId = target.dataset.questionId;
+                    const value = target.dataset.value;
+                    const container = target.parentElement;
+                    
+                    if (target.classList.contains('selected')) {
+                         return;
+                    }
+                    
+                    const selectedOptions = Array.from(container.querySelectorAll('.priority-option.selected'));
+                    if (selectedOptions.length < 3) {
+                        target.classList.add('selected');
+                        const rank = selectedOptions.length + 1;
+                        const badge = document.createElement('span');
+                        badge.className = 'priority-rank-badge';
+                        badge.textContent = rank;
+                        target.appendChild(badge);
+                        document.getElementById(`${questionId}_rank${rank}`).value = value;
+                    }
+                });
+            };
+
+            window.resetPriority = (questionId) => {
+                const container = document.querySelector(`[data-question-id="${questionId}"]`).parentElement;
+                container.querySelectorAll('.priority-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    const badge = opt.querySelector('.priority-rank-badge');
+                    if (badge) badge.remove();
+                });
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById(`${questionId}_rank${i}`).value = '';
+                }
+            };
+            
+            const validateCurrentPage = () => {
+                let isValid = true;
+                const currentQuestion = allQuestions[appState.currentPageIndex];
+                if (!currentQuestion) return true;
+                
+                document.querySelectorAll('.validation-error').forEach(el => el.textContent = '');
+
+                const q = currentQuestion;
+                const errorEl = document.getElementById(`${q.id}_error`);
+                if (!errorEl) return true;
+                
+                let questionIsValid = true;
+                switch (q.type) {
+                    case 'radio':
+                        const radioChecked = document.querySelector(`input[name="${q.id}"]:checked`);
+                        const otherInput = document.querySelector(`input[name="${q.id}_other"]`);
+                        questionIsValid = radioChecked && !(radioChecked.value === 'سایر' && otherInput && otherInput.value.trim() === '');
+                        break;
+                    case 'checkbox': questionIsValid = document.querySelectorAll(`input[name="${q.id}"]:checked`).length > 0; break;
+                    case 'textarea': questionIsValid = document.getElementById(q.id)?.value.trim() !== ''; break;
+                    case 'priority-ranking': questionIsValid = document.getElementById(`${q.id}_rank3`).value !== ''; break;
+                }
+
+                if (!questionIsValid) {
+                    isValid = false;
+                    errorEl.textContent = 'لطفا به این سوال پاسخ دهید.';
+                }
+                return isValid;
+            };
+
+            const updateUI = () => {
+                const totalPages = appState.pages.length;
+                const isWelcome = appState.currentPageIndex === -1;
+                const isFinal = appState.currentPageIndex === totalPages;
+
+                ui.welcomePage.classList.toggle('active', isWelcome);
+                ui.formContainer.classList.toggle('hidden', isWelcome || isFinal);
+                ui.finalPage.classList.toggle('hidden', !isFinal);
+                if(isFinal) ui.finalPage.classList.add('active');
+
+
+                if (!isWelcome && !isFinal) {
+                    appState.pages.forEach((page, index) => page.classList.toggle('active', index === appState.currentPageIndex));
+                    ui.progressBar.style.width = `${((appState.currentPageIndex + 1) / totalPages) * 100}%`;
+                    ui.progressText.textContent = `سوال ${appState.currentPageIndex + 1} از ${totalPages}`;
+                    
+                    const currentQuestion = allQuestions[appState.currentPageIndex];
+                    if (ui.sectionTitle && currentQuestion) {
+                        ui.sectionTitle.textContent = currentQuestion.section;
+                    }
+                }
+
+                ui.prevBtn.style.visibility = appState.currentPageIndex > 0 ? 'visible' : 'hidden';
+                ui.nextBtn.textContent = appState.currentPageIndex === totalPages - 1 ? 'پایان و ارسال' : 'بعدی';
+            };
+            
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (appState.isSubmitting) return;
+                appState.isSubmitting = true;
+
+                const btn = e.submitter;
+                btn.disabled = true;
+                btn.textContent = 'در حال ارسال...';
+                
+                const form = ui.form;
+                const data = new FormData(form);
+                
+                const checkboxNames = [...new Set([...form.querySelectorAll('input[type="checkbox"]')].map(cb => cb.name))];
+                checkboxNames.forEach(name => {
+                    const values = data.getAll(name);
+                    if (values.length > 0) {
+                        data.delete(name);
+                        data.append(name, values.join(' | '));
+                    }
+                });
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        ui.successModal.classList.remove('opacity-0', 'pointer-events-none');
+                        ui.successModal.querySelector('div').classList.add('scale-100');
+                    } else {
+                        alert("متاسفانه در ثبت اطلاعات خطایی رخ داد. لطفاً دوباره تلاش کنید.");
+                        btn.disabled = false;
+                        btn.textContent = 'ارسال نهایی';
+                    }
+                } catch (err) {
+                    alert("خطا در ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی کنید.");
+                    btn.disabled = false;
+                    btn.textContent = 'ارسال نهایی';
+                }
+            };
+
+            buildForm();
+            setupEventListeners();
+            updateUI();
+        });
+    </script>
+</body>
+</html>
